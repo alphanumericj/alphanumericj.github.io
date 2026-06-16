@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laure Chipman — Projects</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #f0f2f6;
+      --surface: #ffffff;
+      --border:  #dde1e9;
+      --text:    #111827;
+      --muted:   #4b5563;
+      --radius:  14px;
+      --brand:   #C9A84C; /* hero/footer solid color */
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 72px 24px 60px;
+      text-align: center;
+      background: var(--brand);
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #47426E;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      max-width: 560px;
+      margin: 0 auto 24px;
+      color: #47426E;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.35);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 8px 18px;
+      border-radius: 99px;
+      transition: background 0.15s;
+    }
+    .hero-link:hover { background: rgba(255,255,255,0.25); }
+
+    /* ── Section label ── */
+    .section-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 52px 0 20px;
+    }
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+    /* ── Project card ── */
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--card-color, #3b4fd8);
+      border-radius: var(--radius);
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.15s;
+    }
+    .card:hover {
+      box-shadow: 0 6px 24px color-mix(in srgb, var(--card-color, #3b4fd8) 22%, transparent);
+      transform: translateY(-2px);
+    }
+    /* Top accent stripe */
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--card-color, #3b4fd8);
+    }
+
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    }
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .card-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+    .card-link {
+      color: var(--card-color, #3b4fd8);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .card-link:hover { text-decoration: underline; }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    /* ── Tags ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 3px 9px;
+      border-radius: 99px;
+      background: #f1f3f8;
+      color: #4b5563;
+      border: 1px solid var(--border);
+    }
+    .tag.hl {
+      background: color-mix(in srgb, var(--card-color, #3b4fd8) 12%, white);
+      color: var(--card-color, #3b4fd8);
+      border-color: color-mix(in srgb, var(--card-color, #3b4fd8) 30%, transparent);
+      font-weight: 600;
+    }
+
+    /* ── In-development badge (used inside a card) ── */
+    .wip-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #92650a;
+      background: #fef3c7;
+      border: 1px solid #d4a017;
+      padding: 3px 10px;
+      border-radius: 99px;
+      align-self: flex-start;
+    }
+
+    /* ── Claude note ── */
+    .claude-note {
+      margin-top: 48px;
+      padding: 22px 26px;
+      background: #eef1fb;
+      border: 2px solid #c7cff5;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .claude-note strong { color: var(--text); }
+    .claude-note a { color: var(--brand); text-decoration: none; font-weight: 600; }
+    .claude-note a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 36px 24px 48px;
+      margin-top: 56px;
+      background: var(--brand);
+      font-size: 0.85rem;
+      color: #47426E;
+    }
+    footer a { color: 47426E; text-decoration: none; font-weight: 500; }
+    footer a:hover { text-decoration: underline; color: 47426E; }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Laure Chipman</h1>
+    <p>Now that I'm not spending 8 hours a day battling .NET Maui bugs, I've spent the past few months building apps and tools, just some
+       things I wanted to exist. All shipped solo, from idea to App Store.</p>
+    <a class="hero-link" href="https://github.com/alphanumericj" target="_blank">
+      ⟐ github.com/alphanumericj
+    </a>
+  </div>
+
+  <div class="section-wrap">
+
+    <div class="section-label">Shipped since August 2025</div>
+
+    <div class="grid">
+
+      <!-- Real-Helper -->
+      <div class="card" style="--card-color:#47426E; --card-glow:rgba(79,142,247,0.09);">
+        <img class="card-icon" src="icons/real-helper.png" alt="Real-Helper icon" />
+        <div class="card-header">
+          <span class="card-title">Real-Helper</span>
+          <div class="card-links">
+            <a class="card-link" href="https://www.real-helper.com" target="_blank">real-helper.com ↗</a>
+            <a class="card-link" href="https://apps.apple.com/us/app/real-helper/id6760423825" target="_blank">App Store ↗</a>
+          </div>
+        </div>
+        <p class="card-desc">
+          iOS app for home buyers. Not a search tool like Zillow. Real-Helper is an organizer for your short list, with your notes, photos, and links
+          for each property. Premium adds drive times, FEMA flood zones, school district maps,
+          isochrone maps, public record data, and weighted Power Rankings with your own custom criteria.
+        </p>
+        <div class="tags">
+          <span class="tag hl">Claude Code</span>
+          <span class="tag">Flutter / Dart</span>
+          <span class="tag">Firebase</span>
+          <span class="tag">Mapbox</span>
+          <span class="tag">RevenueCat</span>
+          <span class="tag">iOS</span>
+        </div>
+      </div>
+
+      <!-- Real-Helper: Agent -->
+      <div class="card" style="--card-color:#C9A84C; --card-glow:rgba(201,168,76,0.09);">
+        <img class="card-icon" src="icons/real-helper-agent.png" alt="Real-Helper: Agent icon" />
+        <div class="card-header">
+          <span class="card-title">Real-Helper: Agent</span>
+          <div class="card-links">
+            <a class="card-link" href="https://www.real-helper.com/agent/" target="_blank">real-helper.com/agent ↗</a>
+            <a class="card-link" href="https://apps.apple.com/us/app/real-helper-agent/id6762408272" target="_blank">App Store ↗</a>
+          </div>
+        </div>
+        <p class="card-desc">
+          The companion app for real estate agents. Free, no subscription. Activity logs,
+          agreement tracking with expiration alerts, paperless open house sign-in, in-app
+          chat with buyers, AI-assisted creation of calendar events, and QR codes. Link to your contacts via Real-Helper.
+        </p>
+        <div class="tags">
+          <span class="tag hl">Claude Code</span>
+          <span class="tag">Flutter / Dart</span>
+          <span class="tag">Firebase</span>
+          <span class="tag">RevenueCat</span>
+          <span class="tag">iOS</span>
+        </div>
+      </div>
+
+      <!-- Spndle -->
+      <div class="card" style="--card-color:#1A6AD1; --card-glow:rgba(26,106,209,0.09);">
+        <img class="card-icon" src="icons/spndle.png" alt="Spndle icon" />
+        <div class="card-header">
+          <span class="card-title">Spndle</span>
+          <div class="card-links">
+            <a class="card-link" href="https://www.spndle.com" target="_blank">spndle.com ↗</a>
+            <a class="card-link" href="https://apps.apple.com/us/app/spndle/id6770611585" target="_blank">App Store ↗</a>
+          </div>
+        </div>
+        <p class="card-desc">
+          Expense tracking for folks with side-hustles who need Schedule C records but not QuickBooks.
+          Point the camera at a receipt and the AI reads the payee, amount, and description 
+          automatically, and gives its best guess for Schedule C category. GPS mileage tracking, PDF/CSV export, multiple businesses, household mode, recurring
+          expenses. All data lives on YOUR device. $9.99/year.
+        </p>
+        <div class="tags">
+          <span class="tag hl">Claude Code</span>
+          <span class="tag">Flutter / Dart</span>
+          <span class="tag">Claude API</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">ML Kit OCR</span>
+          <span class="tag">GPS</span>
+          <span class="tag">iOS</span>
+        </div>
+      </div>
+
+      <!-- StillOnIt -->
+      <div class="card" style="--card-color:#1A9CB0; --card-glow:rgba(26,156,176,0.09);">
+        <img class="card-icon" src="icons/stillonit.png" alt="StillOnIt icon" />
+        <div class="card-header">
+          <span class="card-title">StillOnIt</span>
+          <a class="card-link" href="https://www.stillonit.com" target="_blank">stillonit.com ↗</a>
+        </div>
+        <p class="card-desc">
+          Lightweight desktop time tracker for Mac and Windows. Lives in the menu bar.
+          A small popup appears at your chosen interval. Still on the same task? Ignore it.
+          Switching? Tap the new one. The weekly report shows you what you need for Harvest, Toggl,
+          Clockify, or whatever you're using. Local SQLite, no account, free.
+        </p>
+        <div class="tags">
+          <span class="tag hl">Claude Code</span>
+          <span class="tag">Flutter / Dart</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">macOS</span>
+          <span class="tag">Windows</span>
+          <span class="tag">System tray</span>
+        </div>
+      </div>
+
+      <!-- iCountdownClock -->
+      <div class="card" style="--card-color:#f75f5f; --card-glow:rgba(247,95,142,0.09);">
+        <img class="card-icon" src="icons/countdownclock.png" alt="iCountdownClock icon" />
+        <div class="card-header">
+          <span class="card-title">iCountdownClock</span>
+          <div class="card-links">
+            <a class="card-link" href="https://iCountdownClock.com" target="_blank">iCountdownClock.com ↗</a>
+            <a class="card-link" href="https://apps.apple.com/us/app/icountdownclock/id6759740936" target="_blank">App Store ↗</a>
+          </div>
+        </div>
+        <p class="card-desc">
+          Apple Watch + iPhone countdown app. I wrote this to remind me when Midterms are rolling around! Track upcoming events as scrollable tiles on
+          your watch; pin one as a watch face complication. Show on your phone as a widget. What sets it apart: it monitors your HRV
+          in the background, and when stress is detected it quietly reminds you of the next
+          thing you're looking forward to, rather than telling you that you're stressed.
+        </p>
+        <div class="tags">
+          <span class="tag hl">Claude Code</span>
+          <span class="tag">Swift / SwiftUI</span>
+          <span class="tag">watchOS</span>
+          <span class="tag">WidgetKit</span>
+          <span class="tag">HealthKit (HRV)</span>
+          <span class="tag">StoreKit</span>
+        </div>
+      </div>
+
+      <!-- AICN -->
+      <div class="card" style="--card-color:#d4a017;">
+        <img class="card-icon" src="icons/aicn.png" alt="AICN icon" />
+        <div class="wip-badge">🎮 Game · In Development</div>
+        <div class="card-header">
+          <span class="card-title">An Inconceivably Complex Narrative</span>
+        </div>
+        <p class="card-desc">
+          A comic fantasy RPG based on the novel by Peter Chipman. Set in the land of Dalnarg, 
+          a continent of bureaucratic absurdity, sarcastic gods, and a rope-based Internet. You
+          play as three characters on separate quests to collect the Seven Keys of Destiny: 
+          Sir Geprod, a self-appointed Hero of the Kingdom; Cysia Liswell, the Court Accountant; and Rillianth, a fraudulent ninja lord who survives entirely
+          by improvisation. Early development.
+        </p>
+        <div class="tags">
+          <span class="tag hl">Claude Code</span>
+          <span class="tag">Godot Engine</span>
+          <span class="tag">GDScript</span>
+        </div>
+      </div>
+
+    </div><!-- /grid -->
+
+    <!-- Claude note -->
+    <div class="claude-note">
+      <strong>Built with Claude Code:</strong> Every project here was developed with
+      <a href="https://www.anthropic.com/claude-code" target="_blank">Claude Code</a>,
+      Anthropic's agentic coding tool: writing code, debugging, refactoring, and thinking
+      through architecture interactively from the terminal. As a friend pointed out, "If you're still using an IDE, you're doing it wrong!" (Although I still dip into it once in a while) It made it possible for one person
+      to design, build, and ship several apps in a couple of months.
+    </div>
+
+  </div><!-- /section-wrap -->
+
+  <footer>
+    <p>© 2026 Laure Chipman · <a href="mailto:laure.chipman1@gmail.com">laure.chipman1@gmail.com</a></p>
+  </footer>
+
+</body>
+</html>
